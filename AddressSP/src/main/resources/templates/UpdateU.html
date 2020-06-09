@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>ユーザー編集</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>ユーザー編集</h1>
+
+    <form th:action="@{/useredit}" th:object="${user}" th:method="get">
+
+    <!--
+    <form th:action="@{/useredit}" th:object="${user}" th:method="POST">
+     -->
+        <table>
+            <tr>
+                <th class="cell_title">名前</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{name}" value="*{name}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">住所</th>
+                <th class="cell_required">※</th>
+                <td><input type="text" th:field="*{address}" value="*{address}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">電話番号</th>
+                <th class="cell_required"></th>
+                <td><input type="text" th:field="*{tel}" value="*{tel}"></td>
+                 <td><input type="hidden" th:field="*{id}" value="*{id}"></td>
+            </tr>
+        </table>
+        <input type="submit"  value="確認" class="btn">
+        <INPUT type="button" onClick='history.back();' value="戻る">
+    </form>
+  </body>
+</html>
