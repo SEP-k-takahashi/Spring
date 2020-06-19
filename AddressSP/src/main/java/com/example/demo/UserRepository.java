@@ -15,4 +15,8 @@ import org.springframework.stereotype.Repository;
 
 	@Query(value = "SELECT * FROM address_sp WHERE derete_flg = 0 and address LIKE %:name%  ", nativeQuery = true)
 	Page<User> findAllByFreeSearch(@Param("name")String str1,Pageable pageable);
+
+	@Query(value = "select u from User u " )
+	Page<User> find(Pageable pageable);
+
 	}

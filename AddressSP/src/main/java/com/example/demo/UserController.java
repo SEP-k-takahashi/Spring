@@ -33,8 +33,10 @@ public String getAllUsers(@Validated User user,  BindingResult result,
 							Model model) {
 
 
-	Page<User> page = userService.searchUserAll(pageable);
+	//Page<User> page = userService.searchUserAll(pageable);
+	Page<User> page = userRepository.find(pageable);
 	model.addAttribute("users", page);
+
 	return "index";
 }
 

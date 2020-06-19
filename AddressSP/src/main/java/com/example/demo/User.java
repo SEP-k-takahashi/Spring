@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -19,6 +21,7 @@ public class User {
     private String address;
     private String tel;
     private String derete_flg;
+    private String categoryid;
 
     public long getId() {
         return id;
@@ -50,5 +53,22 @@ public class User {
     public void setDrete_flg(String derete_flg) {
         this.derete_flg = derete_flg;
     }
+    public String getCategoryid() {
+        return categoryid;
+    }
+    public void setCategoryid(String categoryid) {
+        this.categoryid = categoryid;
+    }
 
+    @ManyToOne
+    @JoinColumn(name="categoryid",insertable = false, updatable = false)
+    private Category category;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }
