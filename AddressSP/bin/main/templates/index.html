@@ -113,6 +113,7 @@ table {
 	        <th bgcolor="#bfefdf" class="col_name">名前</th>
 	        <th bgcolor="#bfefdf" class="col_address">住所</th>
 	        <th bgcolor="#bfefdf" class="col_tel">電話番号</th>
+     		<th bgcolor="#bfefdf" class="col_category">カテゴリ</th>
 	        <th bgcolor="#bfefdf"></th>
 	        <th bgcolor="#bfefdf"></th>
 	    </tr>
@@ -121,7 +122,8 @@ table {
 	    	<td align="center" th:text="${User.name}"/></td>
 	        <td th:text="${User.address}"/></td>
 	        <td align="center" th:text="${User.tel}"/></td>
-	        <td>
+            <td align="center" th:text="${User.category.categoryname}"/></td>
+            <td>
 			<div class="btn_area_center">
 	            <a th:href="@{/user/{id}/edit(id=${User.id})}">編集</a>
 	            <a th:href="@{/user/{id}/edit(id=${User.id})}">編集</a>

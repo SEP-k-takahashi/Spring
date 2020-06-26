@@ -2,6 +2,8 @@ package com.example.demo;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -116,6 +118,11 @@ user.setName(user.getName());
 user.setAddress(user.getAddress());
 user.setTel(user.getTel());
 model.addAttribute("user", user);
+
+List<Category> category =userRepository.findCategoryAll();
+model.addAttribute("category", category);
+
+
 return "UpdateU";
 }
 	@RequestMapping(value="/useredit", method=RequestMethod.GET)
