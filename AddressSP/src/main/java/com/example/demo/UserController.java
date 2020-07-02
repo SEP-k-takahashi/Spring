@@ -24,6 +24,8 @@ public class UserController {
 @Autowired
 	private UserRepository userRepository;
 @Autowired
+	private UserRepositoryCategory userRepositoryCategory;
+@Autowired
 	UserService userService;
 
 @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -117,17 +119,20 @@ user.setId(user.getId());
 user.setName(user.getName());
 user.setAddress(user.getAddress());
 user.setTel(user.getTel());
+user.setCategoryid(user.getCategoryid());
 model.addAttribute("user", user);
 
 List<Category> category =userRepository.findCategoryAll();
+List<Category> category2 =userRepository.findCategoryAll();
 model.addAttribute("category", category);
+model.addAttribute("category2", category2);
 
 
 return "UpdateU";
 }
 	@RequestMapping(value="/useredit", method=RequestMethod.GET)
 	//@RequestMapping(value="/useredit", method=RequestMethod.POST)
-	public String userEdit(@Validated @ModelAttribute User user,Model model,@RequestParam String name,@RequestParam String address, @RequestParam String tel) {
+	public String userEdit(@Validated @ModelAttribute User user,Model model,@RequestParam String name,@RequestParam String address, @RequestParam String tel, @RequestParam Long categoryid) {
 	//public String userEdit(@Validated @ModelAttribute User user,Model model) {
 
 	//User user = userService.findById(id);
@@ -135,6 +140,10 @@ return "UpdateU";
 		user.setName(name);
 		user.setAddress(address);
 		user.setTel(tel);
+		user.setCategoryid(categoryid);
+		Category category = userRepositoryCategory.findById(categoryid).get();
+		Category category2 = userRepositoryCategory.findById(categoryid).get();
+		//User category = userRepository.findById(categoryid).get();
 	/*
 	user.setId(user.getId());
 	user.setName(user.getName());
@@ -142,6 +151,10 @@ return "UpdateU";
 	user.setTel(user.getTel());
 	*/
 	model.addAttribute("user", user);
+	model.addAttribute("category", category);
+	model.addAttribute("category2", category2);
 	return "userEdit";
 	}
 }
+
+

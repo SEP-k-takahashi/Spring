@@ -21,7 +21,7 @@ public class User {
     private String address;
     private String tel;
     private String derete_flg;
-    private String categoryid;
+    private long categoryid;
 
     public long getId() {
         return id;
@@ -53,10 +53,10 @@ public class User {
     public void setDrete_flg(String derete_flg) {
         this.derete_flg = derete_flg;
     }
-    public String getCategoryid() {
+    public long getCategoryid() {
         return categoryid;
     }
-    public void setCategoryid(String categoryid) {
+    public void setCategoryid(long categoryid) {
         this.categoryid = categoryid;
     }
 

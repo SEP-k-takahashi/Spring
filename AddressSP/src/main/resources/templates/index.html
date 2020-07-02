@@ -129,6 +129,9 @@ table {
 	            <a th:href="@{/user/{id}/edit(id=${User.id})}">編集</a>
 			</div>
 	        </td>
+	        <td>
+	        <input type="hidden" name="category" th:value="${User.categoryid}" />
+	        </td>
 	    </tr>
 	</table>
 </body>
