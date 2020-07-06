@@ -5,6 +5,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,6 +19,8 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	SearchService searchService;
 	/**
 	   * ユーザー情報 全検索
 	   * @return 検索結果
@@ -30,9 +33,16 @@ public class UserService {
 	   * ユーザー情報 部分検索
 	   * @return 検索結果
 	   */
-	public Page<User> searchUser(String str1 ,Pageable pageable) {
-		  System.out.println(str1);
-		  Page<User> page = userRepository.findAllByFreeSearch(str1,pageable);
+	public Page<User> searchUser(String name, String add ,String tel ,Pageable pageable) {
+
+		  Specification<User> spec = Specification.where(SearchService.UserNameContains(name))
+				  									.and(SearchService.UserAddContains(add))
+				  									.and(SearchService.UserTelContains(tel))
+				  									;
+
+		  //Page<User> page = userRepository.findAllByFreeSearch(str1,pageable, Specification.where(SearchService.UserNameContains("高橋")));
+		  Page<User> page = userRepository.findAll(spec,pageable);
+
 	    return page;
 	  }
 	  /**
@@ -44,7 +54,7 @@ public class UserService {
 	    user.setName(userRequest.getName());
 	    user.setAddress(userRequest.getAddress());
 	    user.setTel(userRequest.getTel());
-	    user.setDrete_flg("0");
+	    user.setDelete_flg("0");
 	    userRepository.save(user);
 	  }
 
@@ -61,20 +71,19 @@ public class UserService {
      * @param user ユーザー情報
      */
     public void update(User user) {
+
     	System.out.println("--------------");
         System.out.println(user.getId());
         System.out.println("--------------");
         User user2 = findById(user.getId());
 
-        user2.setName(user.getName());
-        user2.setAddress(user.getAddress());
-        user2.setTel(user.getTel());
-        user2.setDrete_flg("0");
+
         System.out.println(user2.getId());
         System.out.println(user2.getName());
         System.out.println(user2.getTel());
-        System.out.println(user2.getDerete_flg());
+        System.out.println(user2.getDelete_flg());
         System.out.println("--------------");
+        user.setDelete_flg("0");
         userRepository.save(user);
     }
 

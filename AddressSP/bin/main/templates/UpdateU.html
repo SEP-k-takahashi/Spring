@@ -35,15 +35,17 @@
             	<th class="cell_title">カテゴリ</th>
             	<th class="cell_required">※</th>
             	<td>
-					<!-- <select id="singleSelect" name="category"  th:field="*{categoryid}"> -->
-					<select id="singleSelect" name="category" >
+					<select id="singleSelect" name="category"  th:field="*{categoryid}">
+					<!--  <select id="singleSelect" name="category" >-->
 	     				<option th:each="item : ${category}" th:text="${item.categoryname}" th:value="${item.categoryid}" th:class="${item.categoryname}" th:selected="${item.categoryid}==${user.categoryid}"> >singleSelect</option>
 
 					</select>
+					<!--
 					<select id="singleSelect" name="category2">
 	     				<option th:each="item2 : ${category}" th:text="${item2.categoryname}" th:value="${item2.categoryid}" th:class="${item2.categoryname}" th:selected="${item2.categoryid}==${user.categoryid}"> >singleSelect</option>
 
 					</select>
+					 -->
 				</td>
 
             </tr>

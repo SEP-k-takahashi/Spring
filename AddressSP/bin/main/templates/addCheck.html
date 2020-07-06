@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>ユーザー登録確認</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>ユーザー登録確認</h1>
+    <form th:action="@{/userAddCommit}" th:object="${user}" th:method="post">
+        <table>
+            <tr>
+                <th class="cell_title">名前</th>
+                <th class="cell_required">※</th>
+                 <td><span th:text="*{name}" th:field="*{name}"></span></td>
+                 <td><input type="hidden" value="*{name}" th:field="*{name}"></span></td>
+            </tr>
+            <tr>
+                <th class="cell_title">住所</th>
+                <th class="cell_required">※</th>
+                <td><span th:text="*{address}" th:field="*{address}"></span></td></td>
+                <td><input type="hidden" value="*{address}" th:field="*{address}"></span></td>
+            </tr>
+            <tr>
+                <th class="cell_title">電話番号</th>
+                <th class="cell_required"></th>
+                <td><span th:text="*{tel}" th:field="*{tel}"></span></td></td>
+                <td><input type="hidden" th:field="*{tel}" value="*{tel}"></td>
+            </tr>
+            <tr>
+                <th class="cell_title">カテゴリ</th>
+                <th class="cell_required"></th>
+                <td><span th:text="${category.categoryname}" th:field="${category.categoryname}"></span></td></td>
+                <td><input type="hidden" th:field="*{categoryid}" value="*{categoryid}"></td>
+            </tr>
+            <input type="hidden" value="*{id}" th:field="*{id}">
+        </table>
+        <input type="submit"  value="編集" class="btn">
+        <INPUT type="button" onClick='history.back();' value="戻る">
+    </form>
+  </body>
+</html>

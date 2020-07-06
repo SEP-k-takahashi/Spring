@@ -16,97 +16,30 @@ table {
 <body>
 <h3>住所録管理システム：住所録一覧</h3>
 <!-- <h2><span th:text="${message}"></span></h2> -->
-<form action="/add">
-    <input type="submit" name="newAdd" value="新規登録" style="WIDTH: 250px; HEIGHT: 20px" />
-    <input type="hidden" name="newAddress" value="新規登録">
-</form>
+
 
 <form action="/Search" method="post">
 	<div  style="position: relative; left: 400px; top: -25px;">
-		住所：<input type="text" name="search" />
+		<table>
+			<tr>
+				<td>名前：<input type="text" name="searchName" /></td>
+			</tr>
+			<tr>
+				<td>住所：<input type="text" name="searchAdd" /></td>
+			</tr>
+			<tr>
+				<td>電話番号：<input type="text" name="searchTel" /></td>
+			</tr>
+		</table>
     	<input type="submit" name="searchbtn" value="検索"  />
     	<!-- <input type="hidden" name="search" value="検索"> -->
     </div>
 </form>
 
-<table border="1">
-    <tr>
-    	<th bgcolor="#bfefdf" class="col_id">ID</th>
-        <th bgcolor="#bfefdf" class="col_name">名前</th>
-        <th bgcolor="#bfefdf" class="col_address">住所</th>
-        <th bgcolor="#bfefdf" class="col_tel">電話番号</th>
-        <th bgcolor="#bfefdf" class="col_category">カテゴリ</th>
-        <th bgcolor="#bfefdf"></th>
-        <th bgcolor="#bfefdf"></th>
-    </tr>
-    <tr th:each="User : ${users}">
-    	<td th:text="${User.id}"/></td>
-    	<td align="center" th:text="${User.name}"/></td>
-        <td th:text="${User.address}"/></td>
-        <td align="center" th:text="${User.tel}"/></td>
-        <td align="center" th:text="${User.category.categoryname}"/></td>
-        <td>
-            <form action="/edit" method="post">
-                <input type="submit" name="id" value="編集">
-                <input type="hidden" name="id" th:value="${User.id}">
-            </form>
-        </td>
-         <td>
-            <form action="/delete" method="post">
-                <input type="submit" value="削除">
-                <input type="hidden" name="id" th:value="${User.id}">
-            </form>
-        </td>
-    </tr>
-</table>
-
-
-<hr>
 <form action="/add">
     <input type="submit" value="新規登録" style="WIDTH: 250px; HEIGHT: 20px" />
 </form>
-<form action="/add">
-    <input type="submit" value="新規登録" style="WIDTH: 250px; HEIGHT: 20px" />
-</form>
-	<table border="1">
-	  	<colgroup>
-		    <col style="width: 5%;">
-		    <col style="width: 20%;">
-		    <col style="width: 30%;">
-		    <col style="width: 10%;">
-		    <col style="width: 10%;">
-		    <col style="width: 5%;">
-		    <col style="width: 5%;">
-	  	</colgroup>
-		<tr>
-			<th>ID</th>
-			<th>名前</th>
-			<th>住所</th>
-			<th>電話</th>
-			<th>削除フラグ</th>
-			<!--
-				<th  width="50"></th>
-				<th  width="50"></th>
-			 -->
-			 <th colspan=2></th>
 
-
-		</tr>
-        <tr th:each="users : ${users}" th:object="${users}">
-
-
-
-			<td th:text="${users.id}"></td>
-			<td th:text="${users.name}"></td>
-			<td th:text="${users.address}"></td>
-			<td th:text="${users.tel}"></td>
-			<td th:text="${users.derete_flg}"></td>
-
-			<td><a th:href="@{/user/{id}/edit(id=*{id})}" class="btn-stitch">変更</a></td>
-			<td><a th:href="@{/edit/{id}(id=*{id})}" class="btn-stitch">変更</a></td>
-
-		</tr>
-	</table>
 	<table border="1">
 	    <tr>
 	    	<th bgcolor="#bfefdf" class="col_id">ID</th>

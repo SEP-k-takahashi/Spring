@@ -47,11 +47,11 @@ public class User {
     public void setTel(String tel) {
         this.tel = tel;
     }
-    public String getDerete_flg() {
+    public String getDelete_flg() {
         return derete_flg;
     }
-    public void setDrete_flg(String derete_flg) {
-        this.derete_flg = derete_flg;
+    public void setDelete_flg(String delete_flg) {
+        this.derete_flg = delete_flg;
     }
     public long getCategoryid() {
         return categoryid;

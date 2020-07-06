@@ -28,6 +28,10 @@ public class UserController {
 @Autowired
 	UserService userService;
 
+@Autowired
+	SearchService searchService;
+
+
 @RequestMapping(value = "/all", method = RequestMethod.GET)
 //public String helloWorld(Model model) {
     //model.addAttribute("message", "Hello World!!");
@@ -48,10 +52,15 @@ public String getAllUsers(@Validated User user,  BindingResult result,
 @RequestMapping(value = "/Search", method = RequestMethod.POST)
 public String getSearchUsers(@Validated User user,  BindingResult result,
 							  @PageableDefault(size = 10) Pageable pageable,
-							  @RequestParam(name = "search") String str1, Model model) {
+							  @RequestParam(name = "searchName",required=false) String name,
+							  @RequestParam (name = "searchAdd",required=false) String add,
+							  @RequestParam (name = "searchTel",required=false) String tel,
+							  Model model) {
 
-	Page<User> page = userService.searchUser(str1,pageable);
+	Page<User> page = userService.searchUser(name,add,tel,pageable);
+
 	model.addAttribute("users", page);
+
 	return"index";
 }
 /**
@@ -61,7 +70,10 @@ public String getSearchUsers(@Validated User user,  BindingResult result,
  */
 @GetMapping(value = "/add")
 public String displayAdd(Model model) {
+
+  List<Category> category =userRepository.findCategoryAll();
   model.addAttribute("userRequest", new UserRequest());
+  model.addAttribute("category",category);
   return "add";
 }
 
@@ -73,11 +85,12 @@ public String displayAdd(Model model) {
  * @return ユーザー情報一覧画面
  */
 @RequestMapping(value = "/usercreate", method = RequestMethod.POST)
-public String create(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model) {
+public String create(@Validated @ModelAttribute User user, BindingResult result, Model model) {
 
-	 // ユーザー情報の登録
-    userService.create(userRequest);
-    return "redirect:/index";
+
+	model.addAttribute("user", user);
+    //userService.create(userRequest);
+    return "index";
   }
 
 
@@ -109,7 +122,8 @@ public String displayEdit(@PathVariable Long id, Model model) {
 public String update(@Validated @ModelAttribute User user, BindingResult result, Model model) {
     // ユーザー情報の更新
     userService.update(user);
-    return String.format("redirect:/user/%d", user.getId());
+    return "index";
+    //return String.format("redirect:/user/%d", user.getId());
 }
 @GetMapping("/user/{id}/edit")
 public String displayEdit2(@PathVariable Long id, Model model) {
