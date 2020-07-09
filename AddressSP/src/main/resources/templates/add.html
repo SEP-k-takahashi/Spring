@@ -6,11 +6,7 @@
     <meta charset="utf-8" />
   </head>
   <body>
-  <table>
-    <tr th:if="${validationError}" th:each="error : ${validationError}">
-      <td style="color:red;" th:text="${error}"></td>
-    </tr>
-  </table>
+
     <h3>住所録管理システム：住所録登録</h3>
     <form th:action="@{/usercreate}" th:object="${userRequest}" th:method="post">
     <table>
@@ -30,17 +26,26 @@
         <td><input type="text" th:field="*{tel}"></td>
       </tr>
       <tr>
-         <th class="cell_title">カテゴリ</th>
-          	<th class="cell_required">※</th>
-           	<td>
-				<select id="singleSelect" name="category"  th:field="*{categoryid}">
-		 			<option th:each="item : ${category}" th:text="${item.categoryname}" th:value="${item.categoryid}" th:class="${item.categoryname}" th:selected="${item.categoryid}==${user.categoryid}"> >singleSelect</option>
-				</select>
-			</td>
+            <th class="cell_title">カテゴリ</th>
+            <th class="cell_required">※</th>
+            <td>
+				<select id="singleSelect" name="categoryid">
+	     			<option th:each="item : ${category}" th:text="${item.categoryname}" th:value="${item.categoryid}" th:class="${item.categoryname}" >singleSelect</option>
+					</select>
+				</td>
+
 	   </tr>
     </table>
-    <div class="btn_area_center"><input type="submit" value="登録"></div>
+    <div class="btn_area_center">
+    	<input type="submit" value="登録">
+    	<INPUT type="button" onClick='history.back();' value="戻る">
+    </div>
 
   </form>
+  <table>
+    <tr th:if="${validationError}" th:each="error : ${validationError}">
+      <td style="color:red;" th:text="${error}"></td>
+    </tr>
+  </table>
   </body>
 </html>

@@ -1,5 +1,4 @@
 package com.example.demo;
-
 import java.io.Serializable;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,6 +26,12 @@ public class UserRequest implements Serializable {
   /**
    * 電話番号
    */
-  @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}", message = "電話番号の形式で入力してください")
+  @NotEmpty(groups = {Group.class})
+  @Pattern(regexp = "\\d{3}-\\d{4}-\\d{4}", message = "電話番号の形式で入力してください",groups = {Group.class})
   private String tel;
+
+  /**
+   * カテゴリ
+   */
+  private long categoryid;
 }

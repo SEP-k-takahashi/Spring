@@ -2,6 +2,7 @@ package com.example.demo;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +29,6 @@ public class UserController {
 	private UserRepositoryCategory userRepositoryCategory;
 @Autowired
 	UserService userService;
-
 @Autowired
 	SearchService searchService;
 
@@ -37,29 +38,36 @@ public class UserController {
     //model.addAttribute("message", "Hello World!!");
 
 public String getAllUsers(@Validated User user,  BindingResult result,
-							@PageableDefault(size = 10) Pageable pageable,
+							@PageableDefault(size = 3) Pageable pageable,
 							Model model) {
 
 
 	//Page<User> page = userService.searchUserAll(pageable);
-	Page<User> page = userRepository.find(pageable);
-	model.addAttribute("users", page);
+	Page<User> wordpage = userRepository.find(pageable);
+	PageWrapper<User> page = new PageWrapper<User>(wordpage, "/all");
+	model.addAttribute("users", page.getContent());
+	model.addAttribute("page", page);
 
 	return "index";
 }
 
 
-@RequestMapping(value = "/Search", method = RequestMethod.POST)
+@RequestMapping(value = "/Search", method = RequestMethod.GET)
 public String getSearchUsers(@Validated User user,  BindingResult result,
-							  @PageableDefault(size = 10) Pageable pageable,
+							  @PageableDefault(size = 3) Pageable pageable,
 							  @RequestParam(name = "searchName",required=false) String name,
 							  @RequestParam (name = "searchAdd",required=false) String add,
 							  @RequestParam (name = "searchTel",required=false) String tel,
 							  Model model) {
 
-	Page<User> page = userService.searchUser(name,add,tel,pageable);
+	Page<User> wordpage = userService.searchUser(name,add,tel,pageable);
+	PageWrapper<User> page = new PageWrapper<User>(wordpage, "/Search");
+	model.addAttribute("users", page.getContent());
+	model.addAttribute("page", page);
+	model.addAttribute("searchName", name);
+	model.addAttribute("searchAdd", add);
+	model.addAttribute("searchTel", tel);
 
-	model.addAttribute("users", page);
 
 	return"index";
 }
@@ -85,12 +93,25 @@ public String displayAdd(Model model) {
  * @return ユーザー情報一覧画面
  */
 @RequestMapping(value = "/usercreate", method = RequestMethod.POST)
-public String create(@Validated @ModelAttribute User user, BindingResult result, Model model) {
+//public String create(@Validated @ModelAttribute User user,Model model,@RequestParam String name,@RequestParam String address, @RequestParam String tel, @RequestParam Long categoryid) {
+public String create_(@Validated @ModelAttribute UserRequest userRequest, BindingResult result, Model model) {
 
 
-	model.addAttribute("user", user);
+    if (result.hasErrors()) {
+        List<String> errorList = new ArrayList<String>();
+        for (ObjectError error : result.getAllErrors()) {
+          errorList.add(error.getDefaultMessage());
+        }
+        List<Category> categoryall =userRepository.findCategoryAll();
+        model.addAttribute("validationError", errorList);
+        model.addAttribute("category",categoryall);
+        return "add";
+      }
+    Category category = userRepositoryCategory.findById(userRequest.getCategoryid()).get();
+	model.addAttribute("user", userRequest);
+	model.addAttribute("category",category);
     //userService.create(userRequest);
-    return "index";
+    return "addCheck";
   }
 
 
@@ -109,6 +130,7 @@ public String displayEdit(@PathVariable Long id, Model model) {
     user.setName(user.getName());
     user.setAddress(user.getAddress());
     user.setTel(user.getTel());
+    user.setCategoryid(user.getCategoryid());
     model.addAttribute("user", user);
     return "UpdateU";
 }
@@ -118,13 +140,30 @@ public String displayEdit(@PathVariable Long id, Model model) {
  * @param model Model
  * @return ユーザー情報詳細画面
  */
+@RequestMapping(value="/userAddCommit", method=RequestMethod.POST)
+public String createcommit(@Validated @ModelAttribute UserRequest user, BindingResult result, Model model) {
+
+
+    // ユーザー情報の更新
+	userService.create(user);
+    return "redirect:all";
+    //return String.format("redirect:/user/%d", user.getId());
+}
+
 @RequestMapping(value="/userupdate", method=RequestMethod.POST)
 public String update(@Validated @ModelAttribute User user, BindingResult result, Model model) {
     // ユーザー情報の更新
+
     userService.update(user);
-    return "index";
+    return "redirect:all";
     //return String.format("redirect:/user/%d", user.getId());
 }
+/**
+ * ユーザー更新
+ * @param userRequest リクエストデータ
+ * @param model Model
+ * @return ユーザー編集画面
+ */
 @GetMapping("/user/{id}/edit")
 public String displayEdit2(@PathVariable Long id, Model model) {
 User user = userService.findById(id);
@@ -144,6 +183,12 @@ model.addAttribute("category2", category2);
 
 return "UpdateU";
 }
+/**
+ * ユーザー更新
+ * @param userRequest リクエストデータ
+ * @param model Model
+ * @return ユーザー編集確認画面
+ */
 	@RequestMapping(value="/useredit", method=RequestMethod.GET)
 	//@RequestMapping(value="/useredit", method=RequestMethod.POST)
 	public String userEdit(@Validated @ModelAttribute User user,Model model,@RequestParam String name,@RequestParam String address, @RequestParam String tel, @RequestParam Long categoryid) {

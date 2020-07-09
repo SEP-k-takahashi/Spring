@@ -32,7 +32,6 @@
                 <td><span th:text="${category.categoryname}" th:field="${category.categoryname}"></span></td></td>
                 <td><input type="hidden" th:field="*{categoryid}" value="*{categoryid}"></td>
             </tr>
-            <input type="hidden" value="*{id}" th:field="*{id}">
         </table>
         <input type="submit"  value="編集" class="btn">
         <INPUT type="button" onClick='history.back();' value="戻る">

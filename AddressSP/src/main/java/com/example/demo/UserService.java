@@ -54,6 +54,7 @@ public class UserService {
 	    user.setName(userRequest.getName());
 	    user.setAddress(userRequest.getAddress());
 	    user.setTel(userRequest.getTel());
+	    user.setCategoryid(userRequest.getCategoryid());
 	    user.setDelete_flg("0");
 	    userRepository.save(user);
 	  }

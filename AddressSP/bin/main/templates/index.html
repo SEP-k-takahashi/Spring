@@ -18,7 +18,7 @@ table {
 <!-- <h2><span th:text="${message}"></span></h2> -->
 
 
-<form action="/Search" method="post">
+<form action="/Search" method="get">
 	<div  style="position: relative; left: 400px; top: -25px;">
 		<table>
 			<tr>
@@ -50,7 +50,9 @@ table {
 	        <th bgcolor="#bfefdf"></th>
 	        <th bgcolor="#bfefdf"></th>
 	    </tr>
-	    <tr th:each="User : ${users}" th:object="${users}">
+	     <tr th:each="User : ${users}" th:object="${users}">
+
+
 	    	<td th:text="${User.id}"/></td>
 	    	<td align="center" th:text="${User.name}"/></td>
 	        <td th:text="${User.address}"/></td>
@@ -67,5 +69,61 @@ table {
 	        </td>
 	    </tr>
 	</table>
+        <div th:fragment='paginationbar'>
+            <ul class='pagination pagination-centered'>
+                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
+                    <span th:if='${page.firstPage}'>←先頭</span>
+                    <a th:if='${not page.firstPage}' th:href='@{${page.url}(searchName=${searchName},searchAdd=${searchAdd},page=0,size=${page.size})}'>←先頭</a>
+                </li>
+                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
+                    <span th:if='${not page.hasPreviousPage}'>«</span>
+                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(searchName=${searchName},searchAdd=${searchAdd},page=${page.number-2},size=${page.size})}'>«</a>
+                </li>
+
+
+                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
+                    <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                    <a th:if='${not item.current}' th:href='@{${page.url}(searchName=${searchName},searchAdd=${searchAdd},page=${item.number-1},size=${page.size})}'>
+                    <span th:text='${item.number}'>1</span>
+                    </a>
+                </li>
+                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
+                    <span th:if='${not page.hasNextPage}'>»</span>
+                    <a th:if='${page.hasNextPage}' th:href='@{${page.url}(searchName=${searchName},searchAdd=${searchAdd},page=${page.number},size=${page.size})}'>»</a>
+                </li>
+                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
+                    <span th:if='${page.lastPage}'>末尾➝</span>
+                    <a th:if='${not page.lastPage}' th:href='@{${page.url}(searchName=${searchName},searchAdd=${searchAdd},page=${page.totalPages - 1},size=${page.size})}'>末尾➝</a>
+                </li>
+            </ul>
+            <!--
+            <ul class='pagination pagination-centered'>
+                <li th:class="${page.firstPage}?'disabled':''" style="display:inline">
+                    <span th:if='${page.firstPage}'>←先頭</span>
+                    <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size},searchName=${searchName},searchAdd=${searchAdd},searchTel=${searchTel}))}'>←先頭</a>
+                </li>
+                <li th:class="${page.hasPreviousPage}? '' : 'disabled'" style="display:inline">
+                    <span th:if='${not page.hasPreviousPage}'>«</span>
+                    <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size},searchName=${searchName},searchAdd=${searchAdd},searchTel=${searchTel})}'>«</a>
+                </li>
+
+
+                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''" style="display:inline">
+                    <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                    <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size},searchName=${searchName},searchAdd=${searchAdd},searchTel=${searchTel})}'>
+                    <span th:text='${item.number}'>1</span>
+                    </a>
+                </li>
+                <li th:class="${page.hasNextPage}? '' : 'disabled'" style="display:inline">
+                    <span th:if='${not page.hasNextPage}'>»</span>
+                    <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size},searchName=${searchName},searchAdd=${searchAdd},searchTel=${searchTel})}'>»</a>
+                </li>
+                <li th:class="${page.lastPage}? 'disabled' : ''" style="display:inline">
+                    <span th:if='${page.lastPage}'>末尾➝</span>
+                    <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size},searchName=${searchName},searchAdd=${searchAdd},searchTel=${searchTel})}'>末尾➝</a>
+                </li>
+			</ul>
+			 -->
+        </div>
 </body>
 </html>
