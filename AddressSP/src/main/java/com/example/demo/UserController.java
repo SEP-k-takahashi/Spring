@@ -183,6 +183,29 @@ model.addAttribute("category2", category2);
 
 return "UpdateU";
 }
+
+@GetMapping("/user/edit")
+public String displayEdit3(@PathVariable Long id, Model model) {
+User user = userService.findById(id);
+
+user.setId(user.getId());
+user.setName(user.getName());
+user.setAddress(user.getAddress());
+user.setTel(user.getTel());
+user.setCategoryid(user.getCategoryid());
+model.addAttribute("user", user);
+
+List<Category> category =userRepository.findCategoryAll();
+List<Category> category2 =userRepository.findCategoryAll();
+model.addAttribute("category", category);
+model.addAttribute("category2", category2);
+
+
+return "UpdateU";
+}
+
+
+
 /**
  * ユーザー更新
  * @param userRequest リクエストデータ

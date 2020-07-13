@@ -60,8 +60,16 @@ table {
             <td align="center" th:text="${User.category.categoryname}"/></td>
             <td>
 			<div class="btn_area_center">
+			    <form  th:action="@{/user/{id}/edit(id=${User.id})}" >
+		            <a th:href="@{/user/{id}/edit(id=${User.id})}" type="button">編集</a>
+		            <input type="submit"  name="mod" value="編集" >
+		           <!--  <input type="hideen"  name="id" value="編集"> -->
+	    		<!--<a th:href="@{/user/{id}/delete(id=${User.id})}" type="button">削除</a> -->
+	    		</form>
+			<!--
 	            <a th:href="@{/user/{id}/edit(id=${User.id})}">編集</a>
 	            <a th:href="@{/user/{id}/edit(id=${User.id})}">編集</a>
+	          -->
 			</div>
 	        </td>
 	        <td>
