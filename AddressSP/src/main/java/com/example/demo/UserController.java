@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 
 public class UserController {
@@ -32,13 +33,28 @@ public class UserController {
 @Autowired
 	SearchService searchService;
 
+@RequestMapping("/page1")
+public String page1(RedirectAttributes attributes) {
+	User attr = new User();
+	attr.setName("testname");
+	attr.setAddress("testadd");
+  attributes.addFlashAttribute("attr1",attr);
+  return "redirect:/page2";
+}
+
+@RequestMapping("/page2")
+public String page2(@ModelAttribute("attr1") User user, Model model) {
+  // attr1 == "flashdata"
+  model.addAttribute("attr");
+  return "index";
+}
 
 @RequestMapping(value = "/all", method = RequestMethod.GET)
 //public String helloWorld(Model model) {
     //model.addAttribute("message", "Hello World!!");
 
 public String getAllUsers(@Validated User user,  BindingResult result,
-							@PageableDefault(size = 3) Pageable pageable,
+							@PageableDefault(size = 10) Pageable pageable,
 							Model model) {
 
 
